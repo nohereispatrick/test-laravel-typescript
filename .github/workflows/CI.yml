@@ -1,0 +1,26 @@
+name: CI
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Use Node.js 17.x
+              uses: actions/setup-node@v2
+              with:
+                  cache: 'npm'
+                  node-version: 17.x
+
+            - name: Install Dependencies
+              run: npm i
+
+            - name: Build
+              env:
+                  NODE_OPTIONS: '--openssl-legacy-provider'
+              run: npm run dev
